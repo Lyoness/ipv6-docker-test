@@ -1,0 +1,12 @@
+sudo: required
+dist: trusty
+
+script:
+  - docker pull ubuntu:precise
+  - docker run --name ipv6_test -d ubuntu:precise for i in {1..100}; do echo $i; sleep 5; done
+  - docker exec ipv6_test apt-get update
+  - docker exec ipv6_test apt-get install inetutils-ping -y
+  - docker exec -it ipv6_test ip addr show dev lo
+  - docker exec -it ipv6_test ping6 -c 5 ::1
+
+- 
